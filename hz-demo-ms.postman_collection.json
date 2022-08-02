@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "7c499a3b-be08-4377-bb9b-b45712ee0e63",
+		"name": "hazelcast-demo-ms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12341669"
+	},
+	"item": [
+		{
+			"name": "/cache/greet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/v1/cache/greet",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"v1",
+						"cache",
+						"greet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/cache/generate/{word}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/v1/cache/generate/daniel",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"v1",
+						"cache",
+						"generate",
+						"daniel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/cache/find/{uuid}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/v1/cache/find/4ad0c84d-e9dd-488c-95d3-6ada6d5812ac",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"v1",
+						"cache",
+						"find",
+						"4ad0c84d-e9dd-488c-95d3-6ada6d5812ac"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/cache/find/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/v1/cache/find/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"v1",
+						"cache",
+						"find",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

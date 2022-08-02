@@ -1,0 +1,11 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: hazelcast-demo
+app:
+  hazelcast:
+    cluster-name: MS_DEMO_CLUSTER
+    instance-name: HZ-INSTANCE-1
+    #members list separated by comma ","
+    members: 127.0.0.1
