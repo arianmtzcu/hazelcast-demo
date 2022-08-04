@@ -1,6 +1,10 @@
 package com.example.demo.service;
 
+import static com.example.demo.util.Constants.CACHE_NAME1;
+
 import java.util.UUID;
+
+import javax.persistence.Tuple;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +13,11 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.projection.TransactionFullLocation;
+import com.example.demo.domain.projection.TransactionLocation;
+import com.example.demo.domain.projection.TransactionLocationDTO2;
+import com.example.demo.domain.repository.MerchantRepository;
+import com.example.demo.domain.repository.TransactionRepository;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 
@@ -16,15 +25,19 @@ import com.hazelcast.map.IMap;
 @CacheConfig(cacheNames = "uuid_map")
 public class DemoService {
 
-   public static final String UUID_MAP = "uuid_map";
-
    private static final Logger LOGGER = LogManager.getLogger(DemoService.class);
 
    private final HazelcastInstance hazelcastInstance;
 
+   private final TransactionRepository transactionRepository;
+
+   private final MerchantRepository merchantRepository;
+
    @Autowired
-   public DemoService(HazelcastInstance hazelcastInstance) {
+   public DemoService(HazelcastInstance hazelcastInstance, TransactionRepository transactionRepository, MerchantRepository merchantRepository) {
       this.hazelcastInstance = hazelcastInstance;
+      this.transactionRepository = transactionRepository;
+      this.merchantRepository = merchantRepository;
    }
 
    @Cacheable(value = "uuid_map", key = "#key")
@@ -40,11 +53,32 @@ public class DemoService {
       return uuid;
    }
 
-   public Boolean existValueIntoCache(final String uuid) {
-      return hazelcastInstance.getMap(UUID_MAP).containsValue(uuid);
+   public Boolean existValueIntoCache(final String cacheName, final String value) {
+      return hazelcastInstance.getMap(cacheName).containsValue(value);
    }
 
-   public IMap<Object, Object> getAllValuesIntoCache() {
-      return hazelcastInstance.getMap(UUID_MAP);
+   public IMap<Object, Object> getAllValuesIntoCache(final String cacheName) {
+      return hazelcastInstance.getMap(cacheName);
+   }
+
+   public TransactionLocation getTransactionLocationById(final Long transactionId) {
+      return transactionRepository.getTransactionLocation(transactionId);
+   }
+
+   public TransactionFullLocation getTransactionFullLocationById(final Long transactionId) {
+      return transactionRepository.getTransactionFullLocation(transactionId);
+   }
+
+   public Tuple getPersonLocationDTO(final Long transactionId) {
+      return this.transactionRepository.getTransactionLocationDTO(transactionId);
+   }
+
+   public TransactionLocationDTO2 getTransactionLocationDTO2(final Long transactionId) {
+      return this.transactionRepository.getPersonLocationDTO2(transactionId);
+   }
+
+   public TransactionLocation getTransactionLocationDynamically(final long transactionId, final Class<TransactionLocation> transactionLocationClass) {
+      return this.transactionRepository.getTransactionLocationDynamically(transactionId, TransactionLocation.class);
    }
 }
+
